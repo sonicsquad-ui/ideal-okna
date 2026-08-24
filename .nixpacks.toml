@@ -1,7 +1,4 @@
 # Конфигурация сборки для Timeweb Cloud
-[phases.setup]
-nixPkgs = ["nodejs_20", "npm"]
-
 [phases.install]
 cmds = ["npm install --legacy-peer-deps"]
 
