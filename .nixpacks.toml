@@ -1,0 +1,12 @@
+# Конфигурация сборки для Timeweb Cloud
+[phases.setup]
+nixPkgs = ["nodejs_20", "npm"]
+
+[phases.install]
+cmds = ["npm install"]
+
+[phases.build]
+cmds = ["npx prisma generate", "npx prisma db push --accept-data-loss", "node scripts/seed.js || true", "npm run build"]
+
+[start]
+cmd = "npm run start"

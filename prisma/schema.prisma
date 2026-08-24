@@ -1,0 +1,60 @@
+// Prisma schema — ИДЕАЛ москитные сетки
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Заявки (обратный звонок, квиз, калькулятор, формы)
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  type      String   // callback | quiz | calculator | contact | service
+  message   String?
+  data      String?  // JSON-строка с доп. данными (шаги квиза, параметры калькулятора)
+  source    String?  // URL страницы, с которой пришла заявка
+  status    String   @default("new") // new | processed | archived
+  createdAt DateTime @default(now())
+}
+
+// Отзывы клиентов
+model Review {
+  id        String   @id @default(cuid())
+  name      String
+  city      String   @default("Орёл")
+  rating    Int      @default(5)
+  text      String
+  service   String?  // тип услуги/продукта
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// Статьи блога
+model BlogPost {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  excerpt   String
+  content   String
+  category  String   @default("Полезная информация")
+  tags      String?  // через запятую
+  image     String?
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Акции
+model Promotion {
+  id        String   @id @default(cuid())
+  title     String
+  description String
+  discount  String?
+  validUntil String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
